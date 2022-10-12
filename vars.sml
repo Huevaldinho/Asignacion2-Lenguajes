@@ -1,11 +1,18 @@
-(* filter filtra una lista de acuerdo con un predicado p *)
+(*
+	Creador: Ignacio Trejos Zelaya
 
+	1. La función vars determina la lista de las distintas variables proposicionales que
+	aparecen en una fórmula lógica (proposición). La lista no debe tener elementos repetidos.
+*)
+
+
+(* filter: filtra una lista de acuerdo con un predicado p *)
 fun filter p []      = []
 |   filter p (x::xs) = if p x then x :: filter p xs else filter p xs
 ;
 
 
-(* nub obtiene una lista sin duplicados a partir de una lista arbitraria *)
+(* nub: obtiene una lista sin duplicados a partir de una lista arbitraria *)
 fun nub []      = []
 |   nub (x::xs) = x :: (nub (filter (fn y => x <> y) xs))
 ;

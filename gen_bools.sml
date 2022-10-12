@@ -1,9 +1,19 @@
+
+(*
+   Creador: Ignacio Trejos Zelaya
+   
+   2. La función gen_bools produce todas las posibles combinaciones de valores booleanos para n variables proposicionales.
+      Si hay n variables proposicionales, tendremos 2n maneras distintas de combinar n valores booleanos.
+*)
+
 (* Solución directa y natural.
    Idea original:
    Solución inductiva, mapear (true ::) y (false ::) sobre las listas con 2^(n-1) arreglos booleanos
-   *)
+*)
 
 (* construcción de listas 'curryficada' *)
+
+
 fun cons x xs = x :: xs
 ;
 

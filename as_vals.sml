@@ -1,3 +1,14 @@
+(*
+    Creador: Ignacio Trejos Zelaya
+    
+    3. La función as_vals, dada una lista de variables proposicionales sin repeticiones y 
+        una lista de valores booleanos (true o false) de la misma longitud, 
+        produce una lista del tipo (string * bool) list que combina, posicionalmente,
+        cada variable proposicional con el correspondiente valor booleano. 
+        Esto lo denominamos una asignación de valores (a las variables proposicionales) y 
+        se corresponde con el concepto de asociación (binding) estudiado previamente en el curso.
+*)
+
 (* combinar dos listas y producir una lista de pares ordenados *)
 
 (* versión permisiva *)

@@ -1,3 +1,13 @@
+(*
+     Creador: Ignacio Trejos Zelaya
+
+     4. La funci贸n evalProp eval煤a una proposici贸n en el contexto de una asignaci贸n de valores 
+     booleanos a las variables proposicionales2. 
+
+     El contexto (o ambiente) permite determinar el valor de cada variable dentro de una proposici贸n.
+*)
+
+
 (* Ambientes. *)
 (* Los ambientes son representados como listas de pares de objetos *)
 
@@ -7,7 +17,8 @@
 
    type (''a,'b) Ambiente = (''a * 'b) list
 
-   Pero lo hacemos asi: *)
+   Pero lo hacemos asi: 
+*)
 
 type Identificador = string
 
@@ -29,7 +40,7 @@ fun busca ident []
 
 
 (* Evaluador de proposiciones con variables.
-   Hay un caso para cada variante de proposici髇.
+   Hay un caso para cada variante de proposici锟絥.
 *)
 
 fun evalProp ambiente prop =
