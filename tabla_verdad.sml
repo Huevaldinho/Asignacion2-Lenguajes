@@ -56,7 +56,6 @@ fun tabla prop =
 
 
 (* Mostrar la tabla de verdad de una proposición con variables, como una hilera *)
-
 fun tabla_str prop =
     let
     	(* variables de trabajo *)

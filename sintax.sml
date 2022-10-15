@@ -26,20 +26,11 @@ fun imprimir prop =
     |   equivalencia (prop1, prop2) => "equivalencia (" ^ imprimir prop1 ^ ", " ^ imprimir prop2 ^ ")"
 ;
 
-nonfix ~:
-val ~: = negacion
-
-infix 7 :&&:
-val (op :&&:) = conjuncion(*Precedencia: 7 y asocia: izquierda*)
-
-infix 6 :||:
-val (op :||:) = disyuncion(*Precedencia: 6 y asocia: izquierda*)
-
-infixr 5 :=>:
-val (op :=>:) = implicacion(*Precedencia: 5 y asocia: derecha*)
-
-infix 4 :<=>:
-val (op :<=>:) = equivalencia(*Precedencia: 4 y asocia: izquierda*)
+nonfix ~: val ~: = negacion
+infix 7 :&&: val (op :&&:) = conjuncion(*Precedencia: 7 y asocia: izquierda*)
+infix 6 :||: val (op :||:) = disyuncion(*Precedencia: 6 y asocia: izquierda*)
+infixr 5 :=>: val (op :=>:) = implicacion(*Precedencia: 5 y asocia: derecha*)
+infix 4 :<=>: val (op :<=>:) = equivalencia(*Precedencia: 4 y asocia: izquierda*)
 ;
 
 val pru1 = (variable "a") :&&: (variable "b") ;
