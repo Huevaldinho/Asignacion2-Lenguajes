@@ -14,14 +14,14 @@
 
 (* 
     1. Hacer tabla verdad. - LISTO
-    2. Guardar solo las filas de la matriz que tengan true en la ultima columna (evaluacion de la prop) - 
+    2. Guardar solo las filas de la matriz que tengan true en la ultima columna (evaluacion de la prop) - LISTO
     3. Crear fnd con las variables de la prop seleccionada, si es true se pone normal, si es false se tiene que usar negacion.
     4. Si no hay ninguna fila entonces se retorna false.
 
 
     (p:&&:q) :||: (~:q :&&: q) :||: (p :&&: ~:p)
 *)
-fun fnd prop = 
+fun fndConWhile prop = 
     let
         val tablaVerdad = tabla_dato prop (*Crea la tabla de verdad de la proposion.*)
         val totalFilas = List.length tablaVerdad (*Saca el total de filas.*)
@@ -54,18 +54,18 @@ fun filaTrue (listaVariables,resultado) =
     end
 ;
 
-fun fndRecursivo prop = 
+fun fnd prop = 
     let
         val tablaVerdad = tabla_dato prop (*Crea la tabla de verdad de la proposion, 
                                             tiene la forma:  ((string * bool) list * bool) list.*)
         
 
-        fun trueOnly [] = []
-        |   trueOnly (primeraFila :: masFilas) = 
+        fun sacarFilasTrue [] = []
+        |   sacarFilasTrue (primeraFila :: masFilas) = 
             let
                 
             in
-                filaTrue primeraFila @ trueOnly masFilas
+                filaTrue primeraFila @ sacarFilasTrue masFilas
                 (*Hasta este punto se tiene una lista de listas de variables con el valor booleano
                 
                 [[("q",true),("p",true)],[("q",false),("p",false)]] : (string * bool) list list
@@ -75,70 +75,38 @@ fun fndRecursivo prop =
             end
             
     in 
-        trueOnly tablaVerdad
-        (*Aqui debo hacer la disyuncion de las conjunciones*)
+        disyuntar (sacarFilasTrue tablaVerdad)
     end
 ;
 
 (*
     Esta funcion recibe una lista de listas de variables y retorna una lista de conjunciones
  [[("q",true),("p",true)],[("q",false),("p",false)]] : (string * bool) list list*)
-fun disyuntar [] = constante false
+fun disyuntar [] = constante true
 | disyuntar (primero :: resto) = 
         let 
-            fun pegar [] = constante false
-            | pegar (variable1::masVariables) = 
+            fun conjuntar [] = constante true
+            | conjuntar (variable1::masVariables) = 
                 let
                     val (letra,valor) = variable1
                 in
-                    if (valor = true) then conjuncion (variable letra,pegar masVariables)
-                    else conjuncion (negacion (variable letra),pegar masVariables)
+                    if (valor = true) then 
+                        conjuncion (variable letra,conjuntar masVariables)
+                    else 
+                        conjuncion (negacion (variable letra),conjuntar masVariables)
                 end
         in
-            disyuncion (pegar primero, disyuntar resto)
+            disyuncion (conjuntar primero, disyuntar resto)
 
         end
 ;
 
+Resultado de fnd con pru7
 
 disyuncion
-    (conjuncion (variable "q",conjuncion (variable "p",constante false)),
+    (conjuncion (variable "q",conjuncion (variable "p",constante true)),
      disyuncion
-       (conjuncion
-          (negacion (variable "q"),
-           conjuncion (negacion (variable #),constante false)),
-        constante false)) : Proposicion
-
-
-
-
-
-
-
-fun sacarVerdaderos x=
-    (*Debe retornar una proposicion, solo cuando el resultado es true debe agregar la conjuncion
-    
-        Hasta este punto la x se descompone en lista variables y en resultado. el resultado si lo agarra 
-            bien pero la lista al parecerno.
-        
-    *)
-    let 
-        
-        val (listaVariables,resultado) = x
-        
-    in
-        if (resultado=true) then 
-                (* HACER BIEN LA CONJUNCION, poner variables o negacion de variables
-                    conjuncion (constante true,constante true)  
-                *)
-                conjuncion (constante true,constante true)  
-                
-        else
-            constante false
-
-    end
-; 
-
-
-fun length(x) = if null(x) then 0
-        else 1 + length (tl(x));
+       (conjuncion(negacion (variable "q"),conjuncion (negacion (variable #),constante true)),constante true))
+          
+           
+  : Proposicion
