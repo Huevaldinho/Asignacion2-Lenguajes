@@ -27,7 +27,8 @@ fun fnd prop =
         val totalFilas = length tablaVerdad (*Saca el total de filas.*)
 
         val x = ref 0 (*Iterador del ciclo para recorrer las filas de la matriz.*)
-        val fnd = []
+        val fnd = [] (*Lista para adjuntar las conjunciones.*)
+        
         
 
        
@@ -39,17 +40,10 @@ fun fnd prop =
   
         (*La matriz tiene el formato: ((string * bool) list * bool) list *)
     in 
-        (*Mientras que el contenido de x sea diferente de totalFilas.
-                    let
-                val (listaVariables,resultado) : (string*bool) list * bool = List.nth(tablaVerdad,!x) 
-            in 
-                if resultado = true
-                    then fnd @ listaVariables
-            end
-        
-        *)
        while (!x) <> totalFilas do (
             (*Revisar filas*)
+            sacarVerdaderos (List.nth(tablaVerdad,!x)) :: fnd
+
 
             
 
@@ -59,18 +53,21 @@ fun fnd prop =
         
         fnd
 
-        (*
-                Aqui se hace el "return" de la fnd.
-        
-        fnd
-
-        *)
-
     end
 ;
 
-fun sacarVerdaderos (listaVariables,resultado): (string * bool) list * bool =
+fun sacarVerdaderos x=
     (*Debe retornar una proposicion, solo cuando el resultado es true debe agregar la conjuncion*)
-    
-    
+    let 
+        val (listaVariables,resultado) = x
+    in
+        if (resultado=true) then 
+            let 
+                
+            in
+                conjuncion (constante true,constante false)
+            end
+        else
+            constante false
+    end
 ; 
