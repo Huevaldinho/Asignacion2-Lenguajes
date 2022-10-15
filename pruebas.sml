@@ -39,6 +39,4 @@ val pru11 = (vp :||: ~: vp)  :&&: (vq :||: ~: vq)
 val pru12 = vp :||: ~: vp  :||: vq :||: ~: vq
 
 (* contradicciones *)
-val pru13 = (vp :=>: ~: vp)  :&&: (vq :=>: ~: vq)
-
-;
+val pru13 = (vp :=>: ~: vp)  :&&: (vq :=>: ~: vq);
