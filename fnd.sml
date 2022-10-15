@@ -27,7 +27,11 @@ fun fnd prop =
         val totalFilas = length tablaVerdad (*Saca el total de filas.*)
 
         val x = ref 0 (*Iterador del ciclo para recorrer las filas de la matriz.*)
-        val fnd = [] (*Lista para adjuntar las conjunciones.*)
+        val prueba = [10,20,30]
+        val fnd= [constante false] (*Lista para adjuntar las conjunciones.
+        
+        Esta mierda no esta agregando las conjunciones del while
+            *)
         
         
 
@@ -40,34 +44,49 @@ fun fnd prop =
   
         (*La matriz tiene el formato: ((string * bool) list * bool) list *)
     in 
+        
        while (!x) <> totalFilas do (
-            (*Revisar filas*)
-            sacarVerdaderos (List.nth(tablaVerdad,!x)) :: fnd
-
-
-            
-
-
+            (*Toma cada fila de la tabla de verdad, llama a sacarVerdaderos para generar las 
+            conjunciones y agregarlas a la lista de conjunciones fnd (puede ser una conjuncion o constante false)*)
+            fnd = fnd @ [sacarVerdaderos (List.nth(tablaVerdad,!x))] ;
+            prueba = !x::prueba;
             x := (!x + 1) (*Incrementa el iterador del ciclo de las filas.*)
         );
         
-        fnd
+        prueba
 
     end
 ;
 
 fun sacarVerdaderos x=
-    (*Debe retornar una proposicion, solo cuando el resultado es true debe agregar la conjuncion*)
+    (*Debe retornar una proposicion, solo cuando el resultado es true debe agregar la conjuncion
+    
+        Hasta este punto la x se descompone en lista variables y en resultado. el resultado si lo agarra 
+            bien pero la lista al parecerno.
+        
+    *)
     let 
+        
         val (listaVariables,resultado) = x
     in
         if (resultado=true) then 
             let 
-                
             in
-                conjuncion (constante true,constante false)
+                conjuncion (constante true,constante true)
             end
         else
             constante false
     end
 ; 
+
+
+
+val x = ref 0
+val listaConjunciones = []
+
+val u =
+  while (!x) <> 10 do (
+    x := !x + 1;
+    listaConjunciones = listaConjunciones @ [1];
+    print "\n"
+  )
