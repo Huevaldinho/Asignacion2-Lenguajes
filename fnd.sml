@@ -59,7 +59,7 @@ fun fnd prop =
         val tablaVerdad = tabla_dato prop (*Crea la tabla de verdad de la proposion, 
                                             tiene la forma:  ((string * bool) list * bool) list.*)
         
-
+        (* Esta funcion crea una lista con las variables de las filas que sean true*)
         fun sacarFilasTrue [] = []
         |   sacarFilasTrue (primeraFila :: masFilas) = 
             let
@@ -70,21 +70,43 @@ fun fnd prop =
                 
                 [[("q",true),("p",true)],[("q",false),("p",false)]] : (string * bool) list list
 
-                Algo asi
+                    Esto es lo que se manda a disyuntar
                 *)
             end
             
     in 
+        (*Una vez se tiene la lista con las filas true, se manda a hacer la disyuncion de conjunciones*)
+        (* en caso de que sacarFilasTrue retorne [], entonces solo retornamos constante false
+            antiguo 
+        *)
         disyuntar (sacarFilasTrue tablaVerdad)
     end
 ;
 
+
 (*
-    Esta funcion recibe una lista de listas de variables y retorna una lista de conjunciones
- [[("q",true),("p",true)],[("q",false),("p",false)]] : (string * bool) list list*)
+    Recibe una lista de listas de variables con el valor asociado y hace una proposicion
+    de disyunciones de conjunciones con las variables y su valor asociado.
+
+    Recibe algo asi:  [[("q",true),("p",true)],[("q",false),("p",false)]] : (string * bool) list list
+    
+    
+    Retorna algo asi: 
+    
+    disyuncion
+    (   conjuncion (variable "q",conjuncion (variable "p",constante true)),
+        disyuncion
+        (
+            conjuncion(negacion (variable "q"),conjuncion (negacion (variable #),constante true)),constante true)
+    ) : Proposicion
+
+    Tecnicamente esta haciendo
+                                   ~# && t
+*)
 fun disyuntar [] = constante true
 | disyuntar (primero :: resto) = 
         let 
+            (* Recibe una lista de variables con su valor asociado*)
             fun conjuntar [] = constante true
             | conjuntar (variable1::masVariables) = 
                 let
@@ -97,16 +119,84 @@ fun disyuntar [] = constante true
                 end
         in
             disyuncion (conjuntar primero, disyuntar resto)
-
         end
 ;
 
-Resultado de fnd con pru7
 
-disyuncion
-    (conjuncion (variable "q",conjuncion (variable "p",constante true)),
-     disyuncion
-       (conjuncion(negacion (variable "q"),conjuncion (negacion (variable #),constante true)),constante true))
-          
-           
-  : Proposicion
+
+
+fun hacerDisyuncion [] = constante false (* Si la disyuncion tiene un false entonces su valor depende de la otra prop*)
+| hacerDisyuncion (primero::resto) = 
+    let
+        fun conjuntar nil = constante true (*COMO HAGO PARA NO NECESITAR ESTE VALOR CONSTANTE, usar evalProp??*)
+        |   conjuntar (tupla::masVariables) = 
+            let
+                val (letra,valor) = tupla
+                val prop = if (valor = true) then variable letra else negacion (variable letra)
+            in
+            (*
+                 Asi pega las propo en una lista
+                [ if (valor = true) then
+                    variable letra 
+                else
+                    negacion (variable letra)
+                ] :: conjuntar masVariables
+                (if (valor = true) then variable letra else negacion (variable letra)) :&&: (conjuntar masVariables)
+                *)
+                prop :&&: (conjuntar masVariables)
+                
+            end
+    in
+        disyuncion (conjuntar (primero),hacerDisyuncion (resto))
+
+    end
+;
+
+(*Toma una lista de tupas (String * bool) list y hace una lista de proposiones atomicas. Como esto: [("q",true),("p",true)]
+
+    Retorna: conjuncion (variable "q",conjuncion (variable "p",constante true))
+    
+*)
+fun conjuntar nil = constante true (*COMO HAGO PARA NO NECESITAR ESTE VALOR CONSTANTE, usar evalProp??*)
+|   conjuntar (tupla::masVariables) = 
+    let
+        val (letra,valor) = tupla
+        val prop = if (valor = true) then variable letra else negacion (variable letra)
+    in
+       (*
+       Asi pega las propo en una lista
+        [ if (valor = true) then
+            variable letra 
+        else
+            negacion (variable letra)
+        ] :: conjuntar masVariables
+        (if (valor = true) then variable letra else negacion (variable letra)) :&&: (conjuntar masVariables)
+        *)
+        prop :&&: (conjuntar masVariables)
+        
+    end
+;
+
+(*
+    Sin el caso nil no funciona
+    
+*)
+fun pegarVariables2 (tupla::masVariables) = 
+    let
+        val (letra,valor) = tupla
+        val prop = if (valor = true) then variable letra else negacion (variable letra)
+    in
+       (*
+       Asi pega las propo en una lista
+        [ if (valor = true) then
+            variable letra 
+        else
+            negacion (variable letra)
+        ] :: pegarVariables masVariables
+        (if (valor = true) then variable letra else negacion (variable letra)) :&&: (pegarVariables masVariables)
+        *)
+        prop :&&: (pegarVariables2 masVariables)
+        
+    end
+    | pegarVariables2 _ = constante true
+;
