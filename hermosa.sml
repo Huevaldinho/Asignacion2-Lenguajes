@@ -36,10 +36,10 @@ let
 in
     while !counter < (size str) do
         (if ( (String.sub(str, !counter) = #"t") andalso (!counter + 3 < size str) andalso (substring (str, !counter, 4) = "true") ) then 
-                ( strNueva := !strNueva ^ "\\texttt{true}"; counter := !counter+2 )     (*concatena el true*)
+                ( strNueva := !strNueva ^ "\\texttt{true}"; counter := !counter+3 )     (*concatena el true*)
 
         else if ( (String.sub(str, !counter) = #"f") andalso (!counter + 4 < size str) andalso (substring (str, !counter, 5) = "false") ) then 
-                ( strNueva := !strNueva ^ "\\texttt{false}"; counter := !counter+3 )     (*concatena el false*)
+                ( strNueva := !strNueva ^ "\\texttt{false}"; counter := !counter+4 )     (*concatena el false*)
 
         else if (String.sub(str, !counter) = #"~") then 
                   strNueva := !strNueva ^ "\\neg"                                (*concatena la negación*)
