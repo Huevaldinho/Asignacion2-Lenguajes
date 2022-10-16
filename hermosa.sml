@@ -15,7 +15,7 @@ Fuente: https://stackoverflow.com/questions/33597175/how-to-write-to-a-file-in-s
 Ediciones: Alonso Garita Granados
 *)
 fun printToOutStream outstream str = let val os = outstream in
-    TextIO.output(os,str);
+    TextIO.output(os, str);
     TextIO.closeOut os
 end;
 
@@ -29,6 +29,10 @@ fun hermosa (str) =         (*recibe como entrada, la salida de bonita*)
 let 
     val counter = ref 0     (*contador para recorrer el string*)
     val strNueva = ref ""   (*string de salida*)
+    val fileName = "Hermosa.tex";
+    val filePath = "C:/Users/Alonso Garita/Desktop/"; (*No sé cómo poner direcciones relativas, sólo absolutas*)
+    val os = TextIO.openOut (filePath ^ fileName);
+    val fileContent = ref "\\documentclass[12pt]{article} \\usepackage[spanish]{babel} \\title{Proposici\\'on l\\'ogica} \\author{Asignaci\\'on 3 - Lenguajes} \\date{\\today} \\begin{document} \\maketitle \\section*{Proposici\\'on hermosa} \\begin{center} $";
 in
     while !counter < (size str) do
         (if ( (String.sub(str, !counter) = #"t") andalso (!counter + 3 < size str) andalso (substring (str, !counter, 4) = "true") ) then 
@@ -54,6 +58,10 @@ in
         
         else strNueva := !strNueva ^ Char.toString (String.sub(str, !counter)); (*concatena todo lo demás*)
         counter := !counter+1                                                   (*aumenta el contador, para ir al siguiente caracter*)
-        ); printToOutStream (!strNueva) (*!strNueva*) end; 
+        );
+        
+        fileContent := !fileContent ^ (!strNueva) ^ "$ \\end{center} \\end{document}";
+        printToOutStream os (!fileContent)
+end; 
 
 
