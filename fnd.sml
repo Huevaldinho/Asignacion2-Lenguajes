@@ -20,6 +20,7 @@
 
 
     (p:&&:q) :||: (~:q :&&: q) :||: (p :&&: ~:p)
+
 *)
 fun fndConWhile prop = 
     let
@@ -103,26 +104,24 @@ fun fnd prop =
     Tecnicamente esta haciendo
                                    ~# && t
 *)
-fun disyuntar [] = constante true
-| disyuntar (primero :: resto) = 
-        let 
-            (* Recibe una lista de variables con su valor asociado*)
-            fun conjuntar [] = constante true
-            | conjuntar (variable1::masVariables) = 
-                let
-                    val (letra,valor) = variable1
-                in
-                    if (valor = true) then 
-                        conjuncion (variable letra,conjuntar masVariables)
-                    else 
-                        conjuncion (negacion (variable letra),conjuntar masVariables)
-                end
-        in
-            disyuncion (conjuntar primero, disyuntar resto)
-        end
+
+(* Recibe una lista de variables con su valor asociado *)
+fun conjuntar lista =
+    case lista of
+        [] => constante true
+        | ((nombre, true)::[]) => variable nombre
+        | ((nombre, true)::masLista) => conjuncion (variable nombre,conjuntar masLista)
+        | ((nombre, false)::[]) => negacion (variable nombre)
+        | ((nombre, false)::masLista) => conjuncion (negacion (variable nombre),conjuntar masLista)
 ;
 
-
+fun disyuntar listaV =
+    case listaV of
+        [] => constante false
+        | (x::[]) => conjuntar x
+        | (x::xs) => disyuncion (conjuntar x, disyuntar xs)
+            
+;
 
 
 fun hacerDisyuncion [] = constante false (* Si la disyuncion tiene un false entonces su valor depende de la otra prop*)
