@@ -1,3 +1,23 @@
+(*
+	Creador: Ignacio Trejos Zelaya
+	
+	5. La función taut determina si una proposición lógica es una tautología, esto es, 
+	una fórmula lógica que evalúa a verdadera (true), para toda posible asignación 
+	de valores de verdad a las variables presentes en la fórmula.
+
+	- Si la proposición lógica sí es una tautología, la función muestra la fórmula, 
+	seguida de la leyenda “es una tautología”.
+
+	- Si la proposición lógica no es una tautología, la función muestra la fórmula, 
+	seguida por la leyenda “no es una tautología” y muestra (al menos) una de las asignaciones
+	de valores que produjeron false como resultado de la evaluación de la fórmula con esa asignación de valores.
+
+	Por ejemplo,
+		-(p ∨ ¬p) sí es una tautología.
+		-(q ⇒ ¬q) no es una tautología, porque q = true la falsifica (la hace falsa).
+
+*)
+
 (* Determinar si una proposición es una tautología *)
 
 exception NoEsUnaTautologia of (Identificador * bool) list
