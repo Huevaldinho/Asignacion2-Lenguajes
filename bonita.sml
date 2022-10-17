@@ -1,34 +1,3 @@
-(* Lenguaje de proposiciones con constantes. No tiene variables *)
-
-(* Aqui definimos la sintaxis abstracta de nuestro pequenno
-   lenguaje de proposiciones con constantes *)
-
-datatype Proposicion =
-  constante    of bool
-  | variable     of string
-  | negacion     of Proposicion
-  | conjuncion   of Proposicion * Proposicion
-  | disyuncion   of Proposicion * Proposicion
-  | implicacion  of Proposicion * Proposicion
-  | equivalencia of Proposicion * Proposicion
-;
-
-nonfix ~:
-val ~: = negacion
-
-infix 4 :&&:
-val (op :&&:) = conjuncion
-
-infix 3 :||:
-val (op :||:) = disyuncion
-
-infixr 2 :=>:
-val (op :=>:) = implicacion
-
-infix 1 :<=>:
-val (op :<=>:) = equivalencia
-
-;
 
 (* ================================================================= *)
 
@@ -64,6 +33,8 @@ fun bonita prop =
     |   equivalencia (prop1, prop2) => bracketsAux (prop, prop1) ^" <=> "^bracketsAux (prop, prop2)
   end
 ;
+(*
+
 
 val pru1 = (variable "a") :&&: (variable "b") ;
 val pru2 = (variable "x") :&&: (variable "y") ;
@@ -73,4 +44,6 @@ val pru5 = (variable "a") :&&: (variable "b") :||: (variable "x") :&&: (variable
 val pru6 = (variable "a") :||: (variable "b") :&&: (variable "x") :||: (variable "y") ;
 val pru7 = ~: ((variable "a") :&&: (variable "b") :||: (variable "x") :&&: (variable "y")) ;
 val pru8 = ~: (~: ((variable "a") :&&: (variable "b") :||: (variable "x") :&&: (variable "y"))) ;
-val pru10 = ((variable "p") :||: (~:(variable "p") :&&: (variable "q"))) :||: (~:(variable "q"))
+val pru10 = ((variable "p") :||: (~:(variable "p") :&&: (variable "q"))) :||: (~:(variable "q")) ;
+
+*)

@@ -6,12 +6,12 @@
 (* Crea un tipo de dato Proposicion para representar proposiciones logicas. *)
 datatype Proposicion =
   constante    of bool
-| variable     of string
-| negacion     of Proposicion
-| conjuncion   of Proposicion * Proposicion
-| disyuncion   of Proposicion * Proposicion
-| implicacion  of Proposicion * Proposicion
-| equivalencia of Proposicion * Proposicion
+  | variable     of string
+  | negacion     of Proposicion
+  | conjuncion   of Proposicion * Proposicion
+  | disyuncion   of Proposicion * Proposicion
+  | implicacion  of Proposicion * Proposicion
+  | equivalencia of Proposicion * Proposicion
 ;
 
 fun imprimir prop =
@@ -27,14 +27,8 @@ fun imprimir prop =
 ;
 
 nonfix ~: val ~: = negacion
-infix 7 :&&: val (op :&&:) = conjuncion(*Precedencia: 7 y asocia: izquierda*)
-infix 6 :||: val (op :||:) = disyuncion(*Precedencia: 6 y asocia: izquierda*)
-infixr 5 :=>: val (op :=>:) = implicacion(*Precedencia: 5 y asocia: derecha*)
-infix 4 :<=>: val (op :<=>:) = equivalencia(*Precedencia: 4 y asocia: izquierda*)
+infix 4 :&&: val (op :&&:) = conjuncion
+infix 3 :||: val (op :||:) = disyuncion
+infixr 2 :=>: val (op :=>:) = implicacion
+infix 1 :<=>: val (op :<=>:) = equivalencia
 ;
-
-val pru1 = (variable "a") :&&: (variable "b") ;
-val pru2 = (variable "x") :&&: (variable "y") ;
-val pru3 = pru1 :||: pru2 ;
-val pru4 = pru3 :=>: pru3 ;
-

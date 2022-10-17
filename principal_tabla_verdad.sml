@@ -6,3 +6,5 @@ use "evalProp.sml" ;
 use "taut.sml" ;
 use "tabla_verdad.sml" ;
 use "pruebas.sml" ;
+use "bonita.sml" ;
+use "fnd.sml" ;
