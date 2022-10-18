@@ -65,12 +65,15 @@ fun bonita prop =
   end
 ;
 
-val pru1 = (variable "a") :&&: (variable "b") ;
-val pru2 = (variable "x") :&&: (variable "y") ;
-val pru3 = pru1 :||: pru2 ;
-val pru4 = pru3 :=>: pru3 ;
-val pru5 = (variable "a") :&&: (variable "b") :||: (variable "x") :&&: (variable "y") ;
-val pru6 = (variable "a") :||: (variable "b") :&&: (variable "x") :||: (variable "y") ;
-val pru7 = ~: ((variable "a") :&&: (variable "b") :||: (variable "x") :&&: (variable "y")) ;
-val pru8 = ~: (~: ((variable "a") :&&: (variable "b") :||: (variable "x") :&&: (variable "y"))) ;
-val pru10 = ((variable "p") :||: (~:(variable "p") :&&: (variable "q"))) :||: (~:(variable "q"))
+(* Ejemplos *)
+val f = constante false
+val t = constante true
+
+val vp = variable "p" ;
+val vq = variable "q" ;
+
+val pru1 = vp :&&: (vp :||: f) 
+val pru2 = (t :||: ~: vp)  :&&: (vq :<=>: ~: vq)
+val pru3 = vp :=>: ~: vp  :&&: vq :<=>: ~: vq 
+val pru4 = ~: (~: vp :&&: ~: vq)
+;
