@@ -7,7 +7,7 @@
         Sanabria Solano María Fernanda - 2021005572 
 
     Fecha Creación: 11/10/2022
-    Ultima Modificacion: 
+    Ultima Modificacion: 18/10/2022
 
 *)
 
@@ -78,7 +78,7 @@ fun fnd prop:Proposicion =
         |   sacarFilasTrue (fila :: masFilas) = 
             let
             in
-                (* Junta las variables de las filas de true en una lista.*)
+                (* Junta las listas de variables de las filas de true en una lista.*)
                 filaTrue (fila) @ sacarFilasTrue (masFilas)
             end
             

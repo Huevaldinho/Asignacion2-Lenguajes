@@ -1,0 +1,301 @@
+Moscow ML version 2.01 (January 2004)
+Enter `quit();' to quit.
+- (* Trabajaremos con el archivo pruebas.sml *)
+- use "principal_fnd.sml" ;
+[opening file "principal_fnd.sml"]
+[opening file "sintax.sml"]
+(* OMITIDO *)
+[closing file "sintax.sml"]
+[opening file "vars.sml"]
+[closing file "vars.sml"]
+[opening file "gen_bools.sml"]
+> val 'a cons = fn : 'a -> 'a list -> 'a list
+(* OMITIDO *)
+[closing file "gen_bools.sml"]
+[opening file "as_vals.sml"]
+(* OMITIDO *)
+[closing file "as_vals.sml"]
+[opening file "evalProp.sml"]
+(* OMITIDO *)
+[closing file "evalProp.sml"]
+[opening file "taut.sml"]
+(* OMITIDO *)
+[closing file "taut.sml"]
+[opening file "tabla_verdad.sml"]
+(* OMITIDO *)
+[closing file "tabla_verdad.sml"]
+[opening file "fnd.sml"]
+(* CÓDIGO Y RESULTADOS OMITIDOS *)
+[closing file "fnd.sml"]
+[opening file "pruebas.sml"]
+(* OMITIDO *)
+[closing file "pruebas.sml"]
+> val probar = fn : Proposicion -> string
+[closing file "principal_fnd.sml"]
+- (* iniciamos las pruebas *) ;
+- probar prop1 ;
+> val it =
+    "equivalencia (equivalencia (implicacion (false, false), implicacion (negacion (false), negacion (false))), true) SI es una tautologia"
+     : string
+- probar prop2 ;
+> val it =
+    "equivalencia (equivalencia (implicacion (false, false), disyuncion (negacion (false), false)), true) SI es una tautologia"
+     : string
+- probar prop3 ;
+> val it =
+    "equivalencia (equivalencia (implicacion (false, true), disyuncion (negacion (false), true)), true) SI es una tautologia"
+     : string
+- probar prop4 ;
+> val it =
+    "equivalencia (equivalencia (implicacion (false, true), implicacion (negacion (true), negacion (false))), true) SI es una tautologia"
+     : string
+- fnd prop1 ;
+> val it = constante true : Proposicion
+- fnd prop2 ;
+> val it = constante true : Proposicion
+- fnd prop3 ;
+> val it = constante true : Proposicion
+- fnd prop4 ;
+> val it = constante true : Proposicion
+- p;
+> val it = constante false : Proposicion
+- fnd p ;
+> val it = constante false : Proposicion
+- q ;
+> val it = constante true : Proposicion
+- fnd q ;
+> val it = constante true : Proposicion
+- fnd vp ;
+> val it = variable "p" : Proposicion
+- probar vp ;
+> val it = "equivalencia (p, p) SI es una tautologia" : string
+- fnd vq ;
+> val it = variable "q" : Proposicion
+- probar vq ;
+> val it = "equivalencia (q, q) SI es una tautologia" : string
+- fnd vr ;
+> val it = variable "r" : Proposicion
+- probar vr ;
+> val it = "equivalencia (r, r) SI es una tautologia" : string
+- pru00 ;
+> val it = conjuncion(variable "p", negacion(variable "p")) : Proposicion
+- fnd pru00 ;
+> val it = constante false : Proposicion
+- probar pru00 ;
+> val it =
+    "equivalencia (conjuncion (p, negacion (p)), false) SI es una tautologia" :
+  string
+- pru01 ;
+> val it = disyuncion(variable "p", negacion(variable "p")) : Proposicion
+- fnd pru01 ;
+> val it = disyuncion(variable "p", negacion(variable "p")) : Proposicion
+- probar pru01 ;
+> val it =
+    "equivalencia (disyuncion (p, negacion (p)), disyuncion (p, negacion (p))) SI es una tautologia"
+     : string
+- pru1 ;
+> val it = implicacion(variable "p", variable "q") : Proposicion
+- fnd pru1 ;
+> val it =
+    disyuncion(conjuncion(variable "p", variable "q"),
+               disyuncion(conjuncion(negacion(variable "p"), variable "q"),
+                          conjuncion(negacion(variable "p"),
+                                     negacion(variable "q")))) : Proposicion
+- probar pru1 ;
+> val it =
+    "equivalencia (implicacion (p, q), disyuncion (conjuncion (p, q), disyuncion (conjuncion (negacion (p), q), conjuncion (negacion (p), negacion (q))))) SI es una tautologia"
+     : string
+- pru2 ;
+> val it = implicacion(constante true, variable "q") : Proposicion
+- fnd pru2 ;
+> val it = variable "q" : Proposicion
+- probar pru2 ;
+> val it = "equivalencia (implicacion (true, q), q) SI es una tautologia" :
+  string
+- pru3 ;
+> val it = implicacion(variable "p", implicacion(variable "q", variable "q")) :
+  Proposicion
+- fnd pru3 ;
+> val it =
+    disyuncion(conjuncion(variable "p", variable "q"),
+               disyuncion(conjuncion(variable "p", negacion(variable "q")),
+                          disyuncion(conjuncion(negacion(variable "p"),
+                                                variable "q"),
+                                     conjuncion(negacion(variable "p"),
+                                                negacion(variable "q"))))) :
+  Proposicion
+- probar pru3 ;
+> val it =
+    "equivalencia (implicacion (p, implicacion (q, q)), disyuncion (conjuncion (p, q), disyuncion (conjuncion (p, negacion (q)), disyuncion (conjuncion (negacion (p), q), conjuncion (negacion (p), negacion (q)))))) SI es una tautologia"
+     : string
+- pru4 ;
+> val it = implicacion(constante true, constante false) : Proposicion
+- fnd pru4 ;
+> val it = constante false : Proposicion
+- probar pru4 ;
+> val it =
+    "equivalencia (implicacion (true, false), false) SI es una tautologia" :
+  string
+- pru5 ;
+> val it = implicacion(constante false, constante true) : Proposicion
+- fnd pru5 ;
+> val it = constante true : Proposicion
+- probar pru5 ;
+> val it =
+    "equivalencia (implicacion (false, true), true) SI es una tautologia" :
+  string
+- pru6 ;
+> val it =
+    implicacion(conjuncion(variable "p", variable "q"),
+                disyuncion(variable "q", variable "p")) : Proposicion
+- fnd pru6 ;
+> val it =
+    disyuncion(conjuncion(variable "p", variable "q"),
+               disyuncion(conjuncion(variable "p", negacion(variable "q")),
+                          disyuncion(conjuncion(negacion(variable "p"),
+                                                variable "q"),
+                                     conjuncion(negacion(variable "p"),
+                                                negacion(variable "q"))))) :
+  Proposicion
+- probar pru6 ;
+> val it =
+    "equivalencia (implicacion (conjuncion (p, q), disyuncion (q, p)), disyuncion (conjuncion (p, q), disyuncion (conjuncion (p, negacion (q)), disyuncion (conjuncion (negacion (p), q), conjuncion (negacion (p), negacion (q)))))) SI es una tautologia"
+     : string
+- pru7 ;
+> val it =
+    implicacion(disyuncion(variable "q", variable "p"),
+                conjuncion(variable "p", variable "q")) : Proposicion
+- fnd pru7 ;
+> val it =
+    disyuncion(conjuncion(variable "q", variable "p"),
+               conjuncion(negacion(variable "q"), negacion(variable "p"))) :
+  Proposicion
+- probar pru7 ;
+> val it =
+    "equivalencia (implicacion (disyuncion (q, p), conjuncion (p, q)), disyuncion (conjuncion (q, p), conjuncion (negacion (q), negacion (p)))) SI es una tautologia"
+     : string
+- pru8 ;
+> val it =
+    disyuncion(conjuncion(negacion(constante false), constante false),
+               conjuncion(constante true, negacion(constante true))) :
+  Proposicion
+- fnd pru8 ;
+> val it = constante false : Proposicion
+- probar pru8 ;
+> val it =
+    "equivalencia (disyuncion (conjuncion (negacion (false), false), conjuncion (true, negacion (true))), false) SI es una tautologia"
+     : string
+- pru9 ;
+> val it =
+    disyuncion(conjuncion(negacion(variable "p"), variable "p"),
+               conjuncion(variable "q", negacion(variable "q"))) : Proposicion
+- fnd pru9 ;
+> val it = constante false : Proposicion
+- probar pru9 ;
+> val it =
+    "equivalencia (disyuncion (conjuncion (negacion (p), p), conjuncion (q, negacion (q))), false) SI es una tautologia"
+     : string
+- pru10 ;
+> val it =
+    disyuncion(disyuncion(variable "p",
+                          conjuncion(negacion(variable "p"), variable "q")),
+               negacion(variable "q")) : Proposicion
+- fnd pru10 ;
+> val it =
+    disyuncion(conjuncion(variable "p", variable "q"),
+               disyuncion(conjuncion(variable "p", negacion(variable "q")),
+                          disyuncion(conjuncion(negacion(variable "p"),
+                                                variable "q"),
+                                     conjuncion(negacion(variable "p"),
+                                                negacion(variable "q"))))) :
+  Proposicion
+- probar pru10 ;
+> val it =
+    "equivalencia (disyuncion (disyuncion (p, conjuncion (negacion (p), q)), negacion (q)), disyuncion (conjuncion (p, q), disyuncion (conjuncion (p, negacion (q)), disyuncion (conjuncion (negacion (p), q), conjuncion (negacion (p), negacion (q)))))) SI es una tautologia"
+     : string
+- pru11 ;
+> val it =
+    conjuncion(disyuncion(variable "p", negacion(variable "p")),
+               disyuncion(variable "q", negacion(variable "q"))) : Proposicion
+- fnd pru11 ;
+> val it =
+    disyuncion(conjuncion(variable "p", variable "q"),
+               disyuncion(conjuncion(variable "p", negacion(variable "q")),
+                          disyuncion(conjuncion(negacion(variable "p"),
+                                                variable "q"),
+                                     conjuncion(negacion(variable "p"),
+                                                negacion(variable "q"))))) :
+  Proposicion
+- probar pru11 ;
+> val it =
+    "equivalencia (conjuncion (disyuncion (p, negacion (p)), disyuncion (q, negacion (q))), disyuncion (conjuncion (p, q), disyuncion (conjuncion (p, negacion (q)), disyuncion (conjuncion (negacion (p), q), conjuncion (negacion (p), negacion (q)))))) SI es una tautologia"
+     : string
+- pru12 ;
+> val it =
+    disyuncion(disyuncion(disyuncion(variable "p", negacion(variable "p")),
+                          variable "q"), negacion(variable "q")) : Proposicion
+- fnd pru12 ;
+> val it =
+    disyuncion(conjuncion(variable "p", variable "q"),
+               disyuncion(conjuncion(variable "p", negacion(variable "q")),
+                          disyuncion(conjuncion(negacion(variable "p"),
+                                                variable "q"),
+                                     conjuncion(negacion(variable "p"),
+                                                negacion(variable "q"))))) :
+  Proposicion
+- probar pru12 ;
+> val it =
+    "equivalencia (disyuncion (disyuncion (disyuncion (p, negacion (p)), q), negacion (q)), disyuncion (conjuncion (p, q), disyuncion (conjuncion (p, negacion (q)), disyuncion (conjuncion (negacion (p), q), conjuncion (negacion (p), negacion (q)))))) SI es una tautologia"
+     : string
+- pru13 ;
+> val it =
+    conjuncion(implicacion(variable "p", negacion(variable "p")),
+               implicacion(variable "q", negacion(variable "q"))) : Proposicion
+- fnd pru13 ;
+> val it = conjuncion(negacion(variable "p"), negacion(variable "q")) :
+  Proposicion
+- probar pru13 ;
+> val it =
+    "equivalencia (conjuncion (implicacion (p, negacion (p)), implicacion (q, negacion (q))), conjuncion (negacion (p), negacion (q))) SI es una tautologia"
+     : string
+- pru14 ;
+> val it = conjuncion(variable "p", disyuncion(variable "p", variable "q")) :
+  Proposicion
+- fnd pru14 ;
+> val it =
+    disyuncion(conjuncion(variable "p", variable "q"),
+               conjuncion(variable "p", negacion(variable "q"))) : Proposicion
+- probar pru14 ;
+> val it =
+    "equivalencia (conjuncion (p, disyuncion (p, q)), disyuncion (conjuncion (p, q), conjuncion (p, negacion (q)))) SI es una tautologia"
+     : string
+- pru15 ;
+> val it =
+    conjuncion(disyuncion(variable "p", negacion(variable "p")),
+               equivalencia(variable "q", negacion(variable "q"))) :
+  Proposicion
+- fnd pru15 ;
+> val it = constante false : Proposicion
+- probar pru15 ;
+> val it =
+    "equivalencia (conjuncion (disyuncion (p, negacion (p)), equivalencia (q, negacion (q))), false) SI es una tautologia"
+     : string
+- pru16 ;
+> val it =
+    implicacion(variable "p",
+                implicacion(conjuncion(negacion(variable "p"), variable "q"),
+                            negacion(variable "q"))) : Proposicion
+- fnd pru16 ;
+> val it =
+    disyuncion(conjuncion(variable "p", variable "q"),
+               disyuncion(conjuncion(variable "p", negacion(variable "q")),
+                          disyuncion(conjuncion(negacion(variable "p"),
+                                                variable "q"),
+                                     conjuncion(negacion(variable "p"),
+                                                negacion(variable "q"))))) :
+  Proposicion
+- probar pru16 ;
+> val it =
+    "equivalencia (implicacion (p, implicacion (conjuncion (negacion (p), q), negacion (q))), disyuncion (conjuncion (p, q), disyuncion (conjuncion (p, negacion (q)), disyuncion (conjuncion (negacion (p), q), conjuncion (negacion (p), negacion (q)))))) SI es una tautologia"
+     : string
+-
