@@ -1,37 +1,24 @@
-(* Lenguaje de proposiciones con constantes. No tiene variables *)
+(*
 
-(* Aqui definimos la sintaxis abstracta de nuestro pequenno
-   lenguaje de proposiciones con constantes *)
+    Creadores
+        Arguedas Sánchez Raquel Marcela - 2021032567
+        Garita Granados Alonso - 2021030220
+        Obando Arrieta Felipe de Jesús - 2021035489
+        Sanabria Solano María Fernanda - 2021005572 
 
-datatype Proposicion =
-  constante    of bool
-  | variable     of string
-  | negacion     of Proposicion
-  | conjuncion   of Proposicion * Proposicion
-  | disyuncion   of Proposicion * Proposicion
-  | implicacion  of Proposicion * Proposicion
-  | equivalencia of Proposicion * Proposicion
-;
+    Fecha Creación: 10/10/2022
+    Ultima Modificacion: 18/10/2022
 
-nonfix ~:
-val ~: = negacion
+*)
 
-infix 4 :&&:
-val (op :&&:) = conjuncion
 
-infix 3 :||:
-val (op :||:) = disyuncion
 
-infixr 2 :=>:
-val (op :=>:) = implicacion
+(* Para traerse el datatype de proposicion y las precedencias *)
+use "sintax.sml" ;
 
-infix 1 :<=>:
-val (op :<=>:) = equivalencia
+(* ===============================Codigo================================== *)
 
-;
-
-(* ================================================================= *)
-
+(* Retorna la precedencia de la proposicion prop *)
 fun getPrecedence prop =
   case prop of
         constante valor             => 6
@@ -43,15 +30,13 @@ fun getPrecedence prop =
     |   equivalencia (prop1, prop2) => 1
 ;
 
+(* Retorna un string de la proposicion de manera limpia*)
 fun bonita prop =
-  let
+  let (* Funcion para decidir si se usan o no los parentesis *)
     fun bracketsAux (prop1, prop2) =
-    let val val1 = getPrecedence prop1
-    and val2 = getPrecedence prop2
-    in case (val1 > val2) of
-        true => "("^bonita prop2^")"
-        | _ => bonita prop2
-    end  
+      case (getPrecedence prop1 > getPrecedence prop2) of
+        true => "("^bonita prop2^")" (* Se debe usar parentesis por la precedencia*)
+        | _ => bonita prop2  (* No se usa parentesis por la precedencia*)
   in
 	case prop of
         constante false             => "false"
@@ -65,7 +50,8 @@ fun bonita prop =
   end
 ;
 
-(* Ejemplos *)
+(* ===============================Ejemplos================================== *)
+
 val f = constante false
 val t = constante true
 
